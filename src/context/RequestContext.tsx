@@ -2,7 +2,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import { invoke } from "@tauri-apps/api/core";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-type Tab = "body" | "auth" | "params" | "graphql";
+type Tab = "body" | "auth" | "params" | "graphql" | "variables";
 type RequestType = "http" | "graphql";
 
 export type QueryParam = {
@@ -99,7 +99,9 @@ export const RequestProvider = ({ children }: { children: ReactNode }) => {
 
   const formatGraphqlVariables = () => {
     try {
-      const sanitized = graphqlVariables.replace(/[""]/g, '"').replace(/['']/g, "'");
+      const sanitized = graphqlVariables
+        .replace(/[""]/g, '"')
+        .replace(/['']/g, "'");
       const parsed = JSON.parse(sanitized);
       setGraphqlVariables(JSON.stringify(parsed, null, 2));
     } catch (error) {
@@ -118,7 +120,9 @@ export const RequestProvider = ({ children }: { children: ReactNode }) => {
 
       if (requestType === "graphql") {
         // For GraphQL requests, we always use POST method
-        const variables = graphqlVariables.trim() ? JSON.parse(graphqlVariables) : {};
+        const variables = graphqlVariables.trim()
+          ? JSON.parse(graphqlVariables)
+          : {};
 
         if (useBasicAuth) {
           result = await invoke("graphql_basic_auth_request", {

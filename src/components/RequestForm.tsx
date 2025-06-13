@@ -138,7 +138,7 @@ export const RequestForm = () => {
       <div className="p-4 space-y-4 col-span-5 h-full w-full">
         <TabComponent
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={(tab) => setActiveTab(tab as any)}
           availableTabs={availableTabs}
         />
 
