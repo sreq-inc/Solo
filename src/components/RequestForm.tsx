@@ -9,6 +9,7 @@ import { UsernameAndPassword } from "./UsernameAndPassword";
 import { BearerToken } from "./BearerToken";
 import { Trash2Icon, Copy, Check } from "lucide-react";
 import { Checkbox } from "./Checkbox";
+import { VariablesTab } from "./VariablesTab";
 
 export const RequestForm = () => {
   const { theme } = useTheme();
@@ -125,9 +126,9 @@ export const RequestForm = () => {
   // Get available tabs based on request type
   const getAvailableTabs = () => {
     if (requestType === "graphql") {
-      return ["graphql", "auth"] as const;
+      return ["graphql", "auth", "variables"] as const;
     }
-    return ["body", "auth", "params"] as const;
+    return ["body", "auth", "params", "variables"] as const;
   };
 
   const availableTabs = getAvailableTabs();
@@ -139,7 +140,6 @@ export const RequestForm = () => {
           activeTab={activeTab}
           onTabChange={setActiveTab}
           availableTabs={availableTabs}
-          requestType={requestType}
         />
 
         {/* GraphQL Editor */}
@@ -371,6 +371,28 @@ export const RequestForm = () => {
                 )}
               </button>
             </div>
+          </div>
+        )}
+
+        {/* Variables Tab - Only for HTTP requests */}
+        {activeTab === "variables" && requestType === "http" && (
+          <div
+            className={clsx(
+              "mt-4 p-4 border rounded-xl",
+              theme === "dark"
+                ? "bg-[#10121b] border-gray-700"
+                : "bg-white border-gray-300"
+            )}
+          >
+            <label
+              className={clsx(
+                "block text-sm mb-2",
+                theme === "dark" ? "text-gray-300" : "text-gray-700"
+              )}
+            >
+              Variables
+            </label>
+            <VariablesTab />
           </div>
         )}
       </div>

@@ -1,20 +1,18 @@
 import { useTheme } from "../context/ThemeContext";
 import clsx from "clsx";
 
-type Tab = "body" | "auth" | "params" | "graphql";
+type Tab = "body" | "auth" | "params" | "graphql" | "variables";
 
 type TabComponentProps = {
   activeTab: Tab;
   onTabChange: (tab: Tab) => void;
   availableTabs: readonly Tab[];
-  requestType: "http" | "graphql";
 };
 
 export const TabComponent = ({
   activeTab,
   onTabChange,
   availableTabs,
-  requestType
 }: TabComponentProps) => {
   const { theme } = useTheme();
 
@@ -28,6 +26,8 @@ export const TabComponent = ({
         return "Params";
       case "graphql":
         return "GraphQL";
+      case "variables":
+        return "Variables";
       default:
         return tab;
     }
